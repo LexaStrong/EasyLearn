@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resources - EasyLearn Admin</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+                        <rect width="60" height="60" rx="12" fill="#ffc107" />
+                        <path d="M20 25h20M20 30h20M20 35h15" stroke="#1a1d29" stroke-width="3"
+                            stroke-linecap="round" />
+                    </svg>
+                    <span class="sidebar-brand">Admin Console</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="dashboard.html"><span>🏠</span> Dashboard</a></li>
+                </ul>
+                <div class="nav-section-title">Content Management</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="upload-resources.html" class="active"><span>📄</span> Resources</a>
+                    </li>
+                    <li class="nav-item"><a href="upload-books.html"><span>📚</span> Books</a></li>
+                    <li class="nav-item"><a href="manage-quizzes.html"><span>🎯</span> Quizzes</a></li>
+                </ul>
+                <div class="nav-section-title">System</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="manage-users.html"><span>👥</span> Users</a></li>
+                    <li class="nav-item"><a href="../index.html"><span>🔙</span> Student Site</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Upload Resources</h1>
+                <p class="page-subtitle">Add past questions and lecture slides to the database</p>
+            </div>
+
+            <div class="card p-4">
+                <form id="uploadResourceForm">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Resource Title</label>
+                            <input type="text" id="resTitle" class="form-input"
+                                placeholder="e.g. 2023 Discrete Maths Exam" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Resource Type</label>
+                            <select id="resType" class="form-select" required>
+                                <option value="past_question">Past Question</option>
+                                <option value="lecture_slide">Lecture Slide</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Program</label>
+                            <select id="resProgram" class="form-select" required>
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Course</label>
+                            <select id="resCourse" class="form-select" required>
+                                <option value="">Select a course</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Semester</label>
+                            <select id="resSemester" class="form-select" required>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Academic Year</label>
+                            <input type="number" id="resYear" class="form-input" value="2024" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label class="form-label">File attachment (PDF/Image/Doc)</label>
+                        <div class="upload-area" id="dropZone">
+                            <p>Click or Drag & Drop file here</p>
+                            <input type="file" id="resFile" class="hidden" required>
+                            <p class="text-muted mt-2" id="fileNameDisplay">No file selected</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-full mt-4" id="submitBtn">
+                        Upload Resource
+                    </button>
+
+                    <div id="uploadProgress" class="hidden mt-4">
+                        <div class="upload-progress">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="text-center text-sm mt-2" id="progressText">Uploading... 0%</p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="content-section mt-5">
+                <h3>Recently Uploaded</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Course</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentResourcesTable">
+                        <!-- Rows will be populated -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js"></script>
+    <script src="js/upload-res.js"></script>
+</body>
+
+</html>

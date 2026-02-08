@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EasyLearn</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+                        <rect width="60" height="60" rx="12" fill="#ffc107" />
+                        <path d="M20 25h20M20 30h20M20 35h15" stroke="#1a1d29" stroke-width="3"
+                            stroke-linecap="round" />
+                        <circle cx="42" cy="18" r="6" fill="#4ecca3" />
+                    </svg>
+                    <span class="sidebar-brand">EasyLearn</span>
+                </div>
+                <div class="sidebar-user">
+                    <div class="user-avatar-container">
+                        <img id="userAvatar" src="assets/images/default-avatar.png" alt="Profile" class="user-avatar"
+                            onerror="this.src='https://via.placeholder.com/80/252936/ffc107?text=Profile'">
+                    </div>
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-program" id="userProgram">Loading...</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Menu</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="active">
+                            <span class="nav-icon">🏠</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="library.html">
+                            <span class="nav-icon">📚</span>
+                            <span>Library</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="resources.html">
+                            <span class="nav-icon">📝</span>
+                            <span>Resources</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="quiz.html">
+                            <span class="nav-icon">🎯</span>
+                            <span>Quizzes</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-title">Account</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Welcome Back!</h1>
+                <p class="page-subtitle">Here's what's happening with your learning journey</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon primary">📚</div>
+                    <div class="stat-content">
+                        <div class="stat-label">Available Books</div>
+                        <div class="stat-value" id="bookCount">0</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon success">📝</div>
+                    <div class="stat-content">
+                        <div class="stat-label">Past Questions</div>
+                        <div class="stat-value" id="resourceCount">0</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon info">🎯</div>
+                    <div class="stat-content">
+                        <div class="stat-label">Quizzes Completed</div>
+                        <div class="stat-value" id="quizCount">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Quick Actions</h2>
+                </div>
+                <div class="quick-actions">
+                    <a href="library.html" class="action-card">
+                        <div class="action-icon">📖</div>
+                        <div class="action-title">Browse Library</div>
+                        <p class="action-desc">Access textbooks and resources</p>
+                    </a>
+
+                    <a href="resources.html" class="action-card">
+                        <div class="action-icon">📄</div>
+                        <div class="action-title">Past Questions</div>
+                        <p class="action-desc">Download past exam papers</p>
+                    </a>
+
+                    <a href="resources.html?type=lecture_slide" class="action-card">
+                        <div class="action-icon">🎞️</div>
+                        <div class="action-title">Lecture Slides</div>
+                        <p class="action-desc">View course materials</p>
+                    </a>
+
+                    <a href="quiz.html" class="action-card">
+                        <div class="action-icon">✍️</div>
+                        <div class="action-title">Take Quiz</div>
+                        <p class="action-desc">Test your knowledge</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Books -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Books</h2>
+                    <a href="library.html" class="btn btn-secondary btn-sm">View All</a>
+                </div>
+                <div class="resource-grid" id="recentBooks">
+                    <!-- Books will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Recent Resources -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Recent Resources</h2>
+                    <a href="resources.html" class="btn btn-secondary btn-sm">View All</a>
+                </div>
+                <div class="resource-grid" id="recentResources">
+                    <!-- Resources will be loaded here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

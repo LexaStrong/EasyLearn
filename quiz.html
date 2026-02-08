@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quizzes - EasyLearn</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+                        <rect width="60" height="60" rx="12" fill="#ffc107" />
+                        <path d="M20 25h20M20 30h20M20 35h15" stroke="#1a1d29" stroke-width="3"
+                            stroke-linecap="round" />
+                        <circle cx="42" cy="18" r="6" fill="#4ecca3" />
+                    </svg>
+                    <span class="sidebar-brand">EasyLearn</span>
+                </div>
+                <div class="sidebar-user">
+                    <div class="user-avatar-container">
+                        <img id="userAvatar" src="assets/images/default-avatar.png" alt="Profile" class="user-avatar"
+                            onerror="this.src='https://via.placeholder.com/80/252936/ffc107?text=Profile'">
+                    </div>
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-program" id="userProgram">Loading...</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Menu</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <span class="nav-icon">🏠</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="library.html">
+                            <span class="nav-icon">📚</span>
+                            <span>Library</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="resources.html">
+                            <span class="nav-icon">📝</span>
+                            <span>Resources</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="quiz.html" class="active">
+                            <span class="nav-icon">🎯</span>
+                            <span>Quizzes</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-title">Account</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="quizMainContent">
+            <div id="quizSelection">
+                <div class="page-header">
+                    <h1 class="page-title">Interactive Quizzes</h1>
+                    <p class="page-subtitle">Test your knowledge with courses-tailored quizzes</p>
+                </div>
+
+                <div class="content-section">
+                    <div id="loadingQuizzes" class="text-center" style="padding: var(--spacing-2xl);">
+                        <div class="spinner" style="margin: 0 auto;"></div>
+                        <p class="text-muted" style="margin-top: var(--spacing-md);">Loading quizzes...</p>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4" id="quizGrid">
+                        <!-- Quizzes will be populated here -->
+                    </div>
+
+                    <div id="noQuizzes" class="empty-state hidden">
+                        <div class="empty-state-icon">🎯</div>
+                        <p>No quizzes available for your program at the moment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Quiz Interface (Hidden) -->
+            <div id="activeQuiz" class="hidden">
+                <div class="quiz-interface-header">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 id="currentQuizTitle">Quiz Title</h2>
+                        <div class="quiz-timer" id="quizTimer">20:00</div>
+                    </div>
+                    <div class="quiz-progress-wrapper">
+                        <div class="quiz-progress-bar" id="progressBar"></div>
+                    </div>
+                    <div class="flex justify-between mt-2">
+                        <span id="questionCounter">Question 1 of 10</span>
+                        <span id="progressPercent">10%</span>
+                    </div>
+                </div>
+
+                <div class="quiz-question-container card mt-4">
+                    <h3 id="questionText" class="mb-4">Question goes here?</h3>
+                    <div class="quiz-options" id="quizOptions">
+                        <!-- Options -->
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-4">
+                    <button class="btn btn-secondary" id="prevBtn" disabled>Previous</button>
+                    <button class="btn btn-primary" id="nextBtn">Next</button>
+                    <button class="btn btn-success hidden" id="submitQuizBtn">Submit Quiz</button>
+                </div>
+            </div>
+
+            <!-- Quiz Results (Hidden) -->
+            <div id="quizResults" class="hidden text-center">
+                <div class="card p-5">
+                    <div class="result-score-circle" id="resultScore">85%</div>
+                    <h2 class="mt-4">Quiz Completed!</h2>
+                    <p class="text-secondary mb-4" id="resultDetails">You scored 8.5 out of 10</p>
+
+                    <div class="result-stats flex justify-center gap-4 mb-5">
+                        <div class="stat-item">
+                            <div class="label">Time Taken</div>
+                            <div class="value" id="resTime">12:30</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="label">Correct</div>
+                            <div class="value text-success" id="resCorrect">8</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="label">Wrong</div>
+                            <div class="value text-danger" id="resWrong">2</div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center gap-3">
+                        <button class="btn btn-primary" onclick="location.reload()">Back to Quizzes</button>
+                        <button class="btn btn-secondary" id="reviewAnswersBtn">Review Answers</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+
+</html>

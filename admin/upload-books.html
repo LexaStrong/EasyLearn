@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Books - EasyLearn Admin</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+                        <rect width="60" height="60" rx="12" fill="#ffc107" />
+                        <path d="M20 25h20M20 30h20M20 35h15" stroke="#1a1d29" stroke-width="3"
+                            stroke-linecap="round" />
+                    </svg>
+                    <span class="sidebar-brand">Admin Console</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Overview</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="dashboard.html"><span>🏠</span> Dashboard</a></li>
+                </ul>
+                <div class="nav-section-title">Content Management</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="upload-resources.html"><span>📄</span> Resources</a></li>
+                    <li class="nav-item"><a href="upload-books.html" class="active"><span>📚</span> Books</a></li>
+                    <li class="nav-item"><a href="manage-quizzes.html"><span>🎯</span> Quizzes</a></li>
+                </ul>
+                <div class="nav-section-title">System</div>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="manage-users.html"><span>👥</span> Users</a></li>
+                    <li class="nav-item"><a href="../index.html"><span>🔙</span> Student Site</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Manage Library Books</h1>
+                <p class="page-subtitle">Upload and manage digital textbooks</p>
+            </div>
+
+            <div class="card p-4">
+                <form id="uploadBookForm">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">Book Title</label>
+                            <input type="text" id="bookTitle" class="form-input"
+                                placeholder="e.g. Introduction to Algorithms" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Author(s)</label>
+                            <input type="text" id="bookAuthor" class="form-input" placeholder="e.g. Thomas H. Cormen"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Program</label>
+                            <select id="bookProgram" class="form-select" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ISBN (Optional)</label>
+                            <input type="text" id="bookISBN" class="form-input" placeholder="e.g. 978-0262033848">
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label class="form-label">Description / Abstract</label>
+                        <textarea id="bookDescription" class="form-textarea"
+                            placeholder="Briefly describe the contents of the book..."></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mt-3">
+                        <div class="form-group">
+                            <label class="form-label">Book PDF File</label>
+                            <div class="upload-area" id="bookFileZone">
+                                <p>Click to select PDF</p>
+                                <input type="file" id="bookFile" class="hidden" accept=".pdf" required>
+                                <p class="text-xs text-muted mt-1" id="bookFileName">No file selected</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Cover Image (Optional)</label>
+                            <div class="upload-area" id="coverFileZone">
+                                <p>Click to select image</p>
+                                <input type="file" id="coverFile" class="hidden" accept="image/*">
+                                <p class="text-xs text-muted mt-1" id="coverFileName">Default cover will be used</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-full mt-4" id="submitBookBtn">
+                        Add to Library
+                    </button>
+
+                    <div id="uploadProgress" class="hidden mt-4">
+                        <div class="upload-progress">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p class="text-center text-sm mt-2" id="progressText">Uploading... 0%</p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="content-section mt-5">
+                <h3>Library Inventory</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Program</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="booksTable">
+                        <!-- Rows populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/config.js"></script>
+    <script src="js/upload-books.js"></script>
+</body>
+
+</html>

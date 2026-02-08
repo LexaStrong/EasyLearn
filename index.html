@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EasyLearn - Student Portal Login</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="auth-container">
+    <!-- Left Panel - Branding -->
+    <div class="auth-panel auth-brand-panel">
+      <div class="brand-content">
+        <div class="brand-logo">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <rect width="60" height="60" rx="12" fill="#ffc107"/>
+            <path d="M20 25h20M20 30h20M20 35h15" stroke="#1a1d29" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="42" cy="18" r="6" fill="#4ecca3"/>
+          </svg>
+        </div>
+        <h1 class="brand-title">EasyLearn</h1>
+        <p class="brand-tagline">Your Academic Resource Hub</p>
+        <div class="brand-features">
+          <div class="feature-item">
+            <span class="feature-icon">📚</span>
+            <span>Digital Library</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📝</span>
+            <span>Past Questions</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎯</span>
+            <span>Interactive Quizzes</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📊</span>
+            <span>Progress Tracking</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - Login Form -->
+    <div class="auth-panel auth-form-panel">
+      <div class="auth-form-wrapper">
+        <div class="auth-header">
+          <h2>Welcome Back</h2>
+          <p class="text-secondary">Sign in to access your account</p>
+        </div>
+
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label class="form-label" for="loginIdentifier">School ID / Email / Phone</label>
+            <input 
+              type="text" 
+              id="loginIdentifier" 
+              class="form-input" 
+              placeholder="Enter your School ID, email or phone"
+              required
+            >
+            <span class="form-error" id="identifierError"></span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">Password</label>
+            <input 
+              type="password" 
+              id="loginPassword" 
+              class="form-input" 
+              placeholder="Enter your password"
+              required
+            >
+            <span class="form-error" id="passwordError"></span>
+          </div>
+
+          <div class="form-group flex justify-between items-center">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="text-accent">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-full" id="loginBtn">
+            Sign In
+          </button>
+
+          <div class="form-error text-center" id="formError"></div>
+        </form>
+
+        <div class="auth-footer">
+          <p class="text-secondary">
+            Don't have an account? 
+            <a href="signup.html" class="text-accent">Create Account</a>
+          </p>
+        </div>
+
+        <!-- Admin Login Link -->
+        <div class="admin-login-link">
+          <a href="admin/dashboard.html" class="text-muted">Admin Login →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - EasyLearn</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/library.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="40" height="40" viewBox="0 0 60 60" fill="none">
+                        <rect width="60" height="60" rx="12" fill="#ffc107" />
+                        <path d="M20 25h20M20 30h20M20 35h15" stroke="#1a1d29" stroke-width="3"
+                            stroke-linecap="round" />
+                        <circle cx="42" cy="18" r="6" fill="#4ecca3" />
+                    </svg>
+                    <span class="sidebar-brand">EasyLearn</span>
+                </div>
+                <div class="sidebar-user">
+                    <div class="user-avatar-container">
+                        <img id="userAvatar" src="assets/images/default-avatar.png" alt="Profile" class="user-avatar"
+                            onerror="this.src='https://via.placeholder.com/80/252936/ffc107?text=Profile'">
+                    </div>
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-program" id="userProgram">Loading...</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Menu</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html">
+                            <span class="nav-icon">🏠</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="library.html" class="active">
+                            <span class="nav-icon">📚</span>
+                            <span>Library</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="resources.html">
+                            <span class="nav-icon">📝</span>
+                            <span>Resources</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="quiz.html">
+                            <span class="nav-icon">🎯</span>
+                            <span>Quizzes</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-title">Account</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Digital Library</h1>
+                <p class="page-subtitle">Browse and access textbooks for your program</p>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="filter-bar">
+                <input type="text" class="search-input" id="searchInput"
+                    placeholder="Search books by title, author, or ISBN...">
+                <div class="filter-group">
+                    <label>Filter:</label>
+                    <select class="filter-select" id="programFilter">
+                        <option value="">All Programs</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Books Grid -->
+            <div class="content-section">
+                <div id="loadingBooks" class="text-center" style="padding: var(--spacing-2xl);">
+                    <div class="spinner" style="margin: 0 auto;"></div>
+                    <p class="text-muted" style="margin-top: var(--spacing-md);">Loading books...</p>
+                </div>
+                <div class="resource-grid" id="booksGrid" style="display: none;"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Book Detail Modal -->
+    <div id="bookModal" class="modal-overlay hidden" onclick="closeBookModal(event)">
+        <div class="modal book-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalTitle">Book Details</h3>
+                <button class="btn btn-secondary btn-sm" onclick="closeBookModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="book-detail-grid">
+                    <div class="book-cover-large">
+                        <img id="modalCover" src="" alt="Book Cover">
+                    </div>
+                    <div class="book-info-detail">
+                        <h2 id="modalBookTitle">Book Title</h2>
+                        < p class="book-author" id="modalAuthor">Author Name</p>
+                            <div class="book-meta-detail">
+                                <div><strong>ISBN:</strong> <span id="modalISBN">-</span></div>
+                                <div><strong>Program:</strong> <span id="modalProgram">-</span></div>
+                            </div>
+                            <p class="book-description" id="modalDescription">Book description...</p>
+                            <div class="book-actions">
+                                <button class="btn btn-primary" id="viewBookBtn">
+                                    📖 View Book
+                                </button>
+                                <button class="btn btn-success" id="downloadBookBtn">
+                                    ⬇️ Download
+                                </button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/library.js"></script>
+</body>
+
+</html>
