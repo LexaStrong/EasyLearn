@@ -28,10 +28,12 @@
       }
     });
 
-    // Load dashboard data
-    await loadDashboardStats(user);
-    await loadRecentBooks(user);
-    await loadRecentResources(user);
+    // Load dashboard data in parallel
+    await Promise.all([
+      loadDashboardStats(user),
+      loadRecentBooks(user),
+      loadRecentResources(user)
+    ]);
   } catch (error) {
     console.error('Dashboard initialization error:', error);
   }
@@ -40,19 +42,16 @@
 // Load dashboard statistics
 async function loadDashboardStats(user) {
   try {
-    // Count books for user's program
-    const { count: bookCount } = await supabase
-      .from('books')
-      .select('*', { count: 'exact', head: true })
-      .eq('program_id', user.program_id);
+    // Fetch stats in parallel
+    const [booksRes, coursesRes, quizRes] = await Promise.all([
+      supabase.from('books').select('*', { count: 'exact', head: true }).eq('program_id', user.program_id),
+      supabase.from('courses').select('id').eq('program_id', user.program_id),
+      supabase.from('quiz_submissions').select('*', { count: 'exact', head: true }).eq('user_id', user.id)
+    ]);
 
-    // Count resources for user's  program courses
-    const { data: courses } = await supabase
-      .from('courses')
-      .select('id')
-      .eq('program_id', user.program_id);
-
-    const courseIds = courses?.map(c => c.id) || [];
+    const bookCount = booksRes.count || 0;
+    const courseIds = coursesRes.data?.map(c => c.id) || [];
+    const quizCount = quizRes.count || 0;
 
     let resourceCount = 0;
     if (courseIds.length > 0) {
@@ -63,16 +62,10 @@ async function loadDashboardStats(user) {
       resourceCount = count;
     }
 
-    // Count completed quizzes
-    const { count: quizCount } = await supabase
-      .from('quiz_submissions')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user.id);
-
     // Update UI
-    document.getElementById('bookCount').textContent = bookCount || 0;
-    document.getElementById('resourceCount').textContent = resourceCount || 0;
-    document.getElementById('quizCount').textContent = quizCount || 0;
+    document.getElementById('bookCount').textContent = bookCount;
+    document.getElementById('resourceCount').textContent = resourceCount;
+    document.getElementById('quizCount').textContent = quizCount;
 
   } catch (error) {
     console.error('Error loading stats:', error);

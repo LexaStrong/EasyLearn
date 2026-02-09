@@ -34,11 +34,11 @@ let selectedBook = null;
     }
   });
 
-  // Load programs for filter
-  await loadProgramFilters();
-
-  // Load books
-  await loadBooks();
+  // Load filters and books in parallel
+  await Promise.all([
+    loadProgramFilters(),
+    loadBooks()
+  ]);
 
   // Setup search
   document.getElementById('searchInput').addEventListener('input', filterBooks);

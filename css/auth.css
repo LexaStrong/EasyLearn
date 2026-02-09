@@ -42,6 +42,14 @@
     justify-content: center;
 }
 
+.brand-logo img {
+    max-width: 150px;
+    height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 193, 7, 0.2));
+    contain: paint;
+    /* Optimization */
+}
+
 .brand-title {
     font-size: 3rem;
     font-weight: 700;

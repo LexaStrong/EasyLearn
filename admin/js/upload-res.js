@@ -7,6 +7,9 @@
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { window.location.href = '../index.html'; return; }
 
+    // Wait for dynamic data
+    await appReady;
+
     // Populate Programs
     const progSelect = document.getElementById('resProgram');
     PROGRAMS.forEach(p => {

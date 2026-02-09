@@ -91,25 +91,10 @@ async function loadResources() {
     try {
         const progId = document.getElementById('programFilter').value;
 
-        // In a real app, we'd filter by course IDs belonging to the program
-        // Get course IDs for program (from config.js mock or DB)
-        const { data: progCourses } = await supabase
-            .from('courses')
-            .select('id')
-            .eq('program_id', progId);
-
-        const courseIds = progCourses?.map(c => c.id) || [];
-
-        if (courseIds.length === 0) {
-            allResources = [];
-            renderResources([]);
-            return;
-        }
-
         const { data, error } = await supabase
             .from('resources')
-            .select('*, courses(name, code)')
-            .in('course_id', courseIds)
+            .select('*, courses!inner(name, code, program_id)')
+            .eq('courses.program_id', progId)
             .order('created_at', { ascending: false });
 
         if (error) throw error;

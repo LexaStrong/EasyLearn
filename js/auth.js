@@ -2,6 +2,9 @@
 // EasyLearn - Authentication Module
 // ===================================
 
+// Cache for current user to avoid redundant fetches
+let cachedUser = null;
+
 // Check if user is already logged in
 async function checkAuthStatus() {
     try {
@@ -33,7 +36,6 @@ if (document.getElementById('loginForm')) {
 
     const loginForm = document.getElementById('loginForm');
     const loginBtn = document.getElementById('loginBtn');
-    const loadingOverlay = document.getElementById('loadingOverlay');
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -58,7 +60,6 @@ if (document.getElementById('loginForm')) {
         // Show loading
         loginBtn.disabled = true;
         loginBtn.textContent = 'Signing in...';
-        loadingOverlay.classList.remove('hidden');
 
         try {
             console.log('Attempting login for:', identifier);
@@ -124,7 +125,6 @@ if (document.getElementById('loginForm')) {
             console.log('Login attempt finished, hiding loader.');
             loginBtn.disabled = false;
             loginBtn.textContent = 'Sign In';
-            if (loadingOverlay) loadingOverlay.classList.add('hidden');
         }
     });
 }
@@ -136,10 +136,12 @@ if (document.getElementById('signupForm')) {
 
     const signupForm = document.getElementById('signupForm');
     const signupBtn = document.getElementById('signupBtn');
-    const loadingOverlay = document.getElementById('loadingOverlay');
     const programGrid = document.getElementById('programGrid');
 
     let selectedProgram = null;
+
+    // Wait for dynamic data (programs/courses)
+    await appReady;
 
     // Populate program selection
     PROGRAMS.forEach(program => {
@@ -233,7 +235,6 @@ if (document.getElementById('signupForm')) {
         // Show loading
         signupBtn.disabled = true;
         signupBtn.textContent = 'Creating account...';
-        loadingOverlay.classList.remove('hidden');
 
         try {
             // Check if school ID already exists
@@ -311,7 +312,6 @@ if (document.getElementById('signupForm')) {
         } finally {
             signupBtn.disabled = false;
             signupBtn.textContent = 'Create Account';
-            loadingOverlay.classList.add('hidden');
         }
     });
 }
@@ -320,6 +320,7 @@ if (document.getElementById('signupForm')) {
 async function logout() {
     const { error } = await supabase.auth.signOut();
     if (!error) {
+        cachedUser = null;
         window.location.href = 'index.html';
     }
 }
@@ -364,7 +365,9 @@ async function requireAuth() {
 
 // ========== Get Current User Profile ==========
 async function getCurrentUser() {
-    const session = await requireAuth();
+    if (cachedUser) return cachedUser;
+
+    const { data: { session } } = await supabase.auth.getSession();
     if (!session) return null;
 
     const { data, error } = await supabase
@@ -381,6 +384,7 @@ async function getCurrentUser() {
         return null;
     }
 
+    cachedUser = data;
     return data;
 }
 
