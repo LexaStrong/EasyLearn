@@ -1,8 +1,9 @@
-// ===========================================
-// EasyLearn - Admin Quiz Management JS
-// ===========================================
+import { supabase, appReady, COURSES } from '../../js/config.js';
 
 (async function () {
+    // Wait for dynamic data
+    await appReady;
+
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { window.location.href = '../index.html'; return; }
 

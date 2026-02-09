@@ -1,6 +1,4 @@
-// ===========================================
-// EasyLearn - Admin Book Upload JS
-// ===========================================
+import { supabase, appReady, PROGRAMS } from '../../js/config.js';
 
 (async function () {
     const { data: { session } } = await supabase.auth.getSession();

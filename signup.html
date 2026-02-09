@@ -133,10 +133,54 @@
     </div>
 
 
-    <!-- Supabase JS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="js/config.js" defer></script>
-    <script src="js/auth.js" defer></script>
+    <script type="module">
+        import { signUp } from './js/auth.js';
+        import { appReady, PROGRAMS } from './js/config.js';
+
+        // Wait for programs to load
+        appReady.then(() => {
+            const programGrid = document.getElementById('programGrid');
+            PROGRAMS.forEach(program => {
+                const programCard = document.createElement('div');
+                programCard.className = 'program-card';
+                programCard.innerHTML = `
+                    <div class="program-code">${program.code}</div>
+                    <div class="program-name">${program.name}</div>
+                    <input type="radio" name="program" value="${program.id}" style="display:none">
+                `;
+                programCard.onclick = () => {
+                    document.querySelectorAll('.program-card').forEach(c => c.classList.remove('selected'));
+                    programCard.classList.add('selected');
+                    programCard.querySelector('input').checked = true;
+                };
+                programGrid.appendChild(programCard);
+            });
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const schoolId = document.getElementById('schoolId').value;
+            const password = document.getElementById('password').value;
+            const semester = document.getElementById('semester').value;
+            const program = document.querySelector('input[name="program"]:checked');
+
+            if (!program) {
+                alert('Please select a program');
+                return;
+            }
+
+            const btn = document.querySelector('button[type="submit"]');
+            btn.disabled = true;
+            btn.textContent = 'Creating Account...';
+
+            await signUp(email, password, fullName, schoolId, program.value, semester);
+
+            btn.disabled = false;
+            btn.textContent = 'Create Student Account';
+        });
+    </script>
 </body>
 
 </html>

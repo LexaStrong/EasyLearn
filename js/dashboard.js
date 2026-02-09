@@ -1,9 +1,10 @@
-// ===========================================
-// EasyLearn - Dashboard Module
-// ===========================================
+import { requireAuth, getCurrentUser, logout } from './auth.js';
+import { supabase, appReady } from './config.js';
 
 (async function () {
   try {
+    // Wait for app initialization
+    await appReady;
     // Protect this page - require authentication
     const session = await requireAuth();
     if (!session) return;

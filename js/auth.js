@@ -1,6 +1,4 @@
-// ===================================
-// EasyLearn - Authentication Module
-// ===================================
+import { supabase, appReady, PROGRAMS } from './config.js';
 
 // Cache for current user to avoid redundant fetches
 let cachedUser = null;
@@ -18,10 +16,11 @@ async function checkAuthStatus() {
                 .eq('id', session.user.id)
                 .single();
 
+            const isAdminPath = window.location.pathname.includes('/admin/');
             if (userData?.is_admin) {
-                window.location.href = 'admin/dashboard.html';
+                window.location.href = isAdminPath ? 'dashboard.html' : 'admin/dashboard.html';
             } else {
-                window.location.href = 'dashboard.html';
+                window.location.href = isAdminPath ? '../dashboard.html' : 'dashboard.html';
             }
         }
     } catch (err) {
@@ -111,10 +110,11 @@ if (document.getElementById('loginForm')) {
             }
 
             // Redirect based on role
+            const isAdminPath = window.location.pathname.includes('/admin/');
             if (userProfile?.is_admin) {
-                window.location.href = 'admin/dashboard.html';
+                window.location.href = isAdminPath ? 'dashboard.html' : 'admin/dashboard.html';
             } else {
-                window.location.href = 'dashboard.html';
+                window.location.href = isAdminPath ? '../dashboard.html' : 'dashboard.html';
             }
 
         } catch (err) {
@@ -249,62 +249,8 @@ if (document.getElementById('signupForm')) {
                 return;
             }
 
-            // Sign up with Supabase Auth
-            const { data: authData, error: authError } = await supabase.auth.signUp({
-                email: email,
-                password: password
-            });
-
-            if (authError) {
-                if (authError.message.includes('already registered')) {
-                    showError('emailError', 'This email is already registered');
-                } else {
-                    showError('formError', authError.message);
-                }
-                return;
-            }
-
-            // Upload profile image if selected
-            let avatarUrl = null;
-            if (profileImage) {
-                const fileExt = profileImage.name.split('.').pop();
-                const fileName = `${authData.user.id}.${fileExt}`;
-                const { error: uploadError } = await supabase.storage
-                    .from('profile-images')
-                    .upload(fileName, profileImage);
-
-                if (!uploadError) {
-                    const { data: { publicUrl } } = supabase.storage
-                        .from('profile-images')
-                        .getPublicUrl(fileName);
-                    avatarUrl = publicUrl;
-                }
-            }
-
-            // Create user profile
-            const { error: profileError } = await supabase
-                .from('users')
-                .insert({
-                    id: authData.user.id,
-                    school_id: schoolId,
-                    email: email,
-                    phone: phone,
-                    full_name: fullName,
-                    program_id: selectedProgram,
-                    semester: parseInt(semester),
-                    is_admin: false,
-                    avatar_url: avatarUrl
-                });
-
-            if (profileError) {
-                console.error('Profile creation error:', profileError);
-                showError('formError', 'Account created but profile setup failed. Please contact support.');
-                return;
-            }
-
-            // Success - redirect to dashboard
-            alert('Account created successfully! Welcome to EasyLearn.');
-            window.location.href = 'dashboard.html';
+            // Call the new signUp function
+            await signUp(email, password, fullName, schoolId, phone, selectedProgram, parseInt(semester), profileImage);
 
         } catch (err) {
             console.error('Signup error:', err);
@@ -389,11 +335,9 @@ async function getCurrentUser() {
 }
 
 // Export functions for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        requireAuth,
-        getCurrentUser,
-        logout,
-        checkAuthStatus
-    };
-}
+export {
+    requireAuth,
+    getCurrentUser,
+    logout,
+    checkAuthStatus
+};

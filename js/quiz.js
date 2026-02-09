@@ -1,6 +1,5 @@
-// ===========================================
-// EasyLearn - Quiz Module
-// ===========================================
+import { requireAuth, getCurrentUser } from './auth.js';
+import { supabase, appReady } from './config.js';
 
 let currentQuiz = null;
 let quizQuestions = [];
@@ -11,6 +10,9 @@ let timeLeft = 0;
 let startTime = 0;
 
 (async function () {
+    // Wait for app initialization
+    await appReady;
+
     const session = await requireAuth();
     if (!session) return;
     const user = await getCurrentUser();
@@ -220,11 +222,22 @@ async function submitQuiz() {
     clearInterval(timerInterval);
     const timeTaken = Math.round((Date.now() - startTime) / 1000);
 
-    // Calculate Score
+    // Calculate Score securely via RPC
     let correct = 0;
-    quizQuestions.forEach(q => {
-        if (userAnswers[q.id] === q.correct_answer) correct++;
-    });
+    try {
+        const { data: score, error: rpcError } = await supabase.rpc('calculate_quiz_score', {
+            p_quiz_id: currentQuiz.id,
+            p_answers: userAnswers
+        });
+
+        if (rpcError) throw rpcError;
+        correct = score;
+    } catch (err) {
+        console.error('Scoring error:', err);
+        // Fallback or error handling
+        alert('There was an error calculating your score. Please try again.');
+        return;
+    }
 
     const percent = Math.round((correct / quizQuestions.length) * 100);
 

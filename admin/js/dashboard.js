@@ -1,6 +1,4 @@
-// ===========================================
-// EasyLearn - Admin Dashboard JS
-// ===========================================
+import { supabase } from '../../js/config.js';
 
 (async function () {
     // Requires Admin check

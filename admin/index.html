@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - EasyLearn</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="icon" type="image/png" href="../assets/favicon.ico">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-panel auth-brand-panel">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <img src="../assets/logo.png" alt="EasyLearn Logo" width="120" height="120">
+                </div>
+                <h1 class="brand-title">Admin</h1>
+                <p class="brand-tagline">Secure Console Access</p>
+            </div>
+        </div>
+
+        <div class="auth-panel auth-form-panel">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Administrator Sign In</h2>
+                    <p>Enter your credentials to manage the platform</p>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="loginIdentifier">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📧</span>
+                            <input type="email" id="loginIdentifier" placeholder="admin@calex.dev" required>
+                        </div>
+                        <div id="identifierError" class="form-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="loginPassword" placeholder="••••••••" required>
+                        </div>
+                        <div id="passwordError" class="form-error"></div>
+                    </div>
+
+                    <div id="formError" class="form-error text-center mb-3"></div>
+
+                    <button type="submit" id="loginBtn" class="btn btn-primary btn-block">
+                        Access Console
+                    </button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Return to <a href="../index.html">Student Portal</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../js/auth.js"></script>
+</body>
+
+</html>

@@ -1,11 +1,13 @@
-// ===========================================
-// EasyLearn - Resources Module
-// ===========================================
+import { requireAuth, getCurrentUser, logout } from './auth.js';
+import { supabase, appReady } from './config.js';
 
 let allResources = [];
 let currentUser = null;
 
 (async function () {
+    // Wait for app initialization
+    await appReady;
+
     // Protect this page
     const session = await requireAuth();
     if (!session) return;

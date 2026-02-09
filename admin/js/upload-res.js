@@ -1,6 +1,4 @@
-// ===========================================
-// EasyLearn - Admin Resource Upload JS
-// ===========================================
+import { supabase, appReady, PROGRAMS, COURSES } from '../../js/config.js';
 
 (async function () {
     // Check Auth
